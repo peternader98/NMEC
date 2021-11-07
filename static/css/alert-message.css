@@ -1,0 +1,372 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700");
+
+#container {
+  position: relative;
+  margin: auto;
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 0.9em;
+  font-weight: 100;
+  letter-spacing: 3px;
+  padding-top: 10px;
+  color: #FCFCFC;
+  padding-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.green {
+  color: #4ec07d;
+}
+
+.red {
+  color: #e96075;
+}
+
+.alert {
+  font-weight: 700;
+  letter-spacing: 5px;
+}
+
+p {
+  margin-top: -5px;
+  font-size: 0.5em;
+  font-weight: 100;
+  color: #5e5e5e;
+  letter-spacing: 1px;
+}
+
+button, .dot {
+  cursor: pointer;
+}
+
+#success-box {
+ 
+  width: 35%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(40%, #B0DB7D), to(#99DBB4));
+  background: linear-gradient(to bottom right, #B0DB7D 40%, #99DBB4 100%);
+  border-radius: 20px;
+  -webkit-box-shadow: 5px 5px 20px #cbcdd3;
+          box-shadow: 5px 5px 20px #cbcdd3;
+  -webkit-perspective: 40px;
+          perspective: 40px;
+}
+
+#error-box {
+  width: 35%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+ 
+  background: -webkit-gradient(linear, right top, left bottom, color-stop(40%, #EF8D9C), to(#FFC39E));
+  background: linear-gradient(to bottom left, #EF8D9C 40%, #FFC39E 100%);
+  border-radius: 20px;
+  -webkit-box-shadow: 5px 5px 20px #cbcdd3;
+          box-shadow: 5px 5px 20px #cbcdd3;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: #FCFCFC;
+  border-radius: 50%;
+  position: absolute;
+  top: 4%;
+  right: 6%;
+}
+
+.dot:hover {
+  background: #c9c9c9;
+}
+
+.two {
+  right: 12%;
+  opacity: .5;
+}
+
+.face {
+  position: absolute;
+  width: 22%;
+  height: 22%;
+  background: #FCFCFC;
+  border-radius: 50%;
+  border: 1px solid #777777;
+  top: 21%;
+  left: 37.5%;
+  z-index: 2;
+  -webkit-animation: bounce 1s ease-in infinite;
+          animation: bounce 1s ease-in infinite;
+}
+
+.face2 {
+  position: absolute;
+  width: 22%;
+  height: 22%;
+  background: #FCFCFC;
+  border-radius: 50%;
+  border: 1px solid #777777;
+  top: 5%;
+  left: 37.5%;
+  z-index: 2;
+  -webkit-animation: roll 3s ease-in-out infinite;
+          animation: roll 3s ease-in-out infinite;
+}
+
+.eye {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: #777777;
+  border-radius: 50%;
+  top: 40%;
+  left: 20%;
+}
+
+.right {
+  left: 68%;
+}
+
+.mouth {
+  position: absolute;
+  top: 43%;
+  left: 41%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.happy {
+  border: 2px solid;
+  border-color: transparent #777777 #777777 transparent;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.sad {
+  top: 49%;
+  border: 2px solid;
+  border-color: #777777 transparent transparent #777777;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.shadow {
+  position: absolute;
+  width: 21%;
+  height: 3%;
+  opacity: .5;
+  background: #777777;
+  left: 40%;
+  top: 28%;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.scale {
+  -webkit-animation: scale 1s ease-in infinite;
+          animation: scale 1s ease-in infinite;
+}
+
+.move {
+  -webkit-animation: move 3s ease-in-out infinite;
+          animation: move 3s ease-in-out infinite;
+}
+
+.message {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  height: 48%;
+  top: 30%;
+  font-size: 23px;
+  padding: 5px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  
+}
+#success-box .message {
+  top: 45%;
+} 
+#success-box .shadow {
+  top: 45%;
+  left: 39%
+}
+
+.message::-webkit-scrollbar{
+  width:2px;
+  
+}
+
+.message::-webkit-scrollbar-corner {
+  background: none;
+ 
+}
+.message::-webkit-scrollbar-thumb{
+ background: linear-gradient(to top, #6d6d6d, #7e7e7e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+ border-radius: 12px ;
+}
+
+.button-box {
+  position: absolute;
+  background: #FCFCFC;
+  width: 50%;
+  height: 15%;
+  border-radius: 20px;
+  top: 80%;
+  left: 25%;
+  outline: 0;
+  border: none;
+  -webkit-box-shadow: 2px 2px 10px rgba(119, 119, 119, 0.5);
+          box-shadow: 2px 2px 10px rgba(119, 119, 119, 0.5);
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+}
+
+.button-box:hover {
+  background: #efefef;
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
+
+@-webkit-keyframes bounce {
+  50% {
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px);
+  }
+}
+
+@keyframes bounce {
+  50% {
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px);
+  }
+}
+
+@-webkit-keyframes scale {
+  50% {
+    -webkit-transform: scale(0.9);
+            transform: scale(0.9);
+  }
+}
+
+@keyframes scale {
+  50% {
+    -webkit-transform: scale(0.9);
+            transform: scale(0.9);
+  }
+}
+
+@-webkit-keyframes roll {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    left: 25%;
+  }
+  50% {
+    left: 60%;
+    -webkit-transform: rotate(168deg);
+            transform: rotate(168deg);
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    left: 25%;
+  }
+}
+
+@keyframes roll {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    left: 25%;
+  }
+  50% {
+    left: 60%;
+    -webkit-transform: rotate(168deg);
+            transform: rotate(168deg);
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    left: 25%;
+  }
+}
+
+@-webkit-keyframes move {
+  0% {
+    left: 25%;
+  }
+  50% {
+    left: 60%;
+  }
+  100% {
+    left: 25%;
+  }
+}
+
+@keyframes move {
+  0% {
+    left: 25%;
+  }
+  50% {
+    left: 60%;
+  }
+  100% {
+    left: 25%;
+  }
+}
+
+body{
+  position: relative;
+}
+#success-box, #error-box{
+  width: 0px;
+  height:0px;
+  opacity:0;
+  transition: all .3s ease-in-out;
+}
+
+.alert-message{
+  font-size: 15px;
+}
+ #error-box .message , #success-box .message{
+  opacity: 0;
+}
+#success-box.show, #error-box.show{
+  width: 300px;
+  height:300px;
+  opacity:1;
+}
+.show .message{
+  opacity: 1 !important;
+}
+
+#container{
+  width: 100%;
+  height: 100%;
+ 
+}
+#alert{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+  transition: all .3s ease-in-out;
+  background-color: rgba(0, 0, 0, .9);  
+ backdrop-filter: blur(30px);
+}
+#alert.showAlert{
+  z-index: 9999;
+}

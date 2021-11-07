@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block links %}
+<link rel="stylesheet" href="../static/css/alert-message.css">
+
+<!--table css-->
+
+<link rel="stylesheet" type="text/css" href="../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/css/util.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/main2.css">
+	<style>
+		body{
+			background: white;
+		}
+	</style>
+{% endblock %}
+
+{% block scripts %}
+<script src="../static/js/alert-message.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+
+	function shortStr(str) {
+		return str.substr(29, str.indexOf(".") - 6)
+	}
+
+	$(document).on('click', '#reload', function(e){
+			location.reload()
+	})
+
+	$(document).on('click', '#upload', function (e) {
+
+		var formdata = new FormData($('#file')[0]);
+
+		if ($("#input").val().trim() != "") {
+
+			$.ajax({
+				type: "POST",
+				uri: "{{url_for('home')}}",
+				encrypt: 'multipart/form-data',
+				data: formdata,
+				processData: false,
+				contentType: false,
+				cache: false,
+				
+				success: function (data) {
+					console.log(data)
+					if (data.status == true) {
+						$("#file").trigger("reset");
+						showMessage(data.status, data.msg)
+
+						var result = data.result;
+						var resultID = document.querySelector('#result');
+						
+						result.forEach((prediction) => {
+							var trow = document.createElement('tr')
+
+							if(String(prediction[0]).endsWith('mp4'||'avi')){
+								var img = document.createElement('video');
+								img.src = String(prediction[0]);
+								img.alt = shortStr(prediction[0]);
+								img.width = 250;
+								img.height = 250;
+								img.controls = true;
+							}
+							else{
+								var img = document.createElement('img');
+								img.src = String(prediction[0]);
+								img.alt = shortStr(prediction[0]);
+								img.width = 250;
+								img.height = 250;
+							}
+							var image = document.createElement('td')
+							var predict = document.createElement('td')
+							image.setAttribute('class', 'column1')
+							predict.setAttribute('class', 'column1')
+							predict.innerHTML = 'Prediction is ' + String(prediction[1]);
+							image.appendChild(img)
+							trow.append(image, predict)
+
+							resultID.appendChild(trow)
+						})
+					}
+					if (data.status == false) {
+						let strError = ""
+						let strSuccess = ""
+						let strEmpty = ""
+
+						if (data.emptyFiles.length != 0) {
+							for (let emptyFile of data.emptyFiles) {
+								strEmpty = strEmpty + shortStr(emptyFile) + ", "
+							}
+							strEmpty = strEmpty.substr(0, strEmpty.length-2)
+							console.log("empty files")
+							console.log(strEmpty)
+						}
+						
+						if (data.notAllowedFiles.length != 0) {
+							for (let errorFile of data.notAllowedFiles) {
+								strError = strError + errorFile + ", "
+							}
+							strError = strError.substr(0, strError.length-2)
+							console.log("error files")
+							console.log(strError)
+						}
+
+						if (data.uploadedFiles.length != 0) {
+							for (let successFile of data.uploadedFiles) {
+								strSuccess = strSuccess + shortStr(successFile) + ", "
+							}
+							strSuccess = strSuccess.substr(0, strSuccess.length-2)
+							console.log("success files")
+							console.log(strSuccess)
+						}
+
+						if (strSuccess != '')
+							if(strEmpty != '')
+								showMessage(false, "files " + strSuccess + " are uploaded and those files " + strEmpty + " are empty")
+							else
+								showMessage(false, "files " + strSuccess + " are uploaded and those files " + strError + " should be doc, docx, pdf or code file")
+						else
+							if(strEmpty != '' && strError != '')
+								showMessage(false, "files " + strEmpty + " are empty and those files " + strError + " should be doc, docx, pdf or code file")
+							else if(strEmpty != '')
+								showMessage(false, "files " + strEmpty + " are empty")
+							else
+								showMessage(false, String(strError) + " should be doc, docx, pdf or code file")
+
+						$("#file").trigger("reset");
+					}
+				},
+				error: function (reject) {
+					var response = $.parseJSON(reject.responseText);
+					console.log(reject)
+					showMessage(false, "oh no, there is something whent wrong!!")
+				}
+			})
+		}
+		else {
+			showMessage(false, "You need to upload at least 2 file.")
+		}
+	})
+
+</script>
+
+{% endblock %}
+
+{% block body %}
+
+{% include 'includes/alerts/messages.html' %}
+
+{% include 'includes/banner.html' %}
+
+<div class="container" >
+	<div class="content">
+		<div class="box text-center">
+			<form id="file" >
+				<input type="file" id="input" name="files[]" multiple="true" autocomplete="off"
+					style="margin:auto; width:0px" class="inputfile inputfile-5"
+					data-multiple-caption="{count} files selected" multiple style="opacity: 0;" required />
+				<label for="input" >
+					<figure>
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+							<path
+								d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z" />
+						</svg>
+					</figure>
+					<span></span>
+				</label>
+			</form>
+			<button id="upload" style="border-radius: 20px;padding: 14px 40px;background-color: #f44336; color: white;">Predict</button>
+			<button id="reload" style="border-radius: 20px;padding: 14px 40px;background-color: #f44336; color: white;">Clear</button>
+		</div>
+
+		<div class="limiter">
+			<div style="margin-top: 25px;margin-bottom: 25px;">
+				<div class="wrap-table100">
+					<div class="table100">
+						<table>
+							<thead>
+								<tr class="table100-head">
+									<th class="column1">Image</th>
+									<th class="column1">Prediction</th>
+								</tr>
+							</thead>
+							<tbody id="result"></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div>
+
+		</div>
+
+	</div><!-- Related demos -->
+</div><!-- /container -->
+
+<script src="../static/js/custom-file-input.js"></script>
+<script>
+		(function (e, t, n) { var r = e.querySelectorAll("html")[0]; r.className = r.className.replace(/(^|\s)no-js(\s|$)/, "$1js$2") })
+		(document, window, 0);
+</script>
+<script src="../static/vendors/lightbox/simpleLightbox.min.js"></script>
+<script src="../static/vendors/jquery-ui/jquery-ui.js"></script>
+<script src="../static/js/theme.js"></script>
+
+<!--table scripts-->
+
+<script src="../static/js/main.js"></script>	
+<script src="../static/vendor/select2/select2.min.js"></script>
+
+{% endblock %}
